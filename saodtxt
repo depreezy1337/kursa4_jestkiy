@@ -1,0 +1,70 @@
+#include <iostream>
+#include <ctime>
+using namespace std;
+
+
+struct Vertex
+{
+    int data;
+    Vertex* left;
+    Vertex* right;
+};
+
+Vertex* create_vertex(int i)
+{
+    Vertex* elem = new Vertex;
+    elem->data = i;
+    elem->left = NULL;
+    elem->right = NULL;
+    return elem;
+}
+
+void insert_into_vertex(Vertex* root, Vertex* elem)
+{
+    if(elem->data < root->data)
+    {
+        if(root->left == NULL)
+        {
+            root->left = elem;
+        } else {
+            insert_into_vertex(root->left, elem);
+        }
+    } else {
+        if(root->right == NULL)
+        {
+            root->right = elem;
+        } else {
+            insert_into_vertex(root->right, elem);
+        }
+    }
+}
+
+void print_vertex(Vertex* cur_elem)
+{
+    if(cur_elem->left != NULL){
+        print_vertex(cur_elem->left);
+    }
+    cout << "Data = " << cur_elem->data << endl;
+    if(cur_elem->right != NULL){
+        print_vertex(cur_elem->right);
+    }
+}
+
+
+
+
+int main(){
+    srand(time(NULL));
+    int arr[6] = {};
+    for(int i = 0; i < 6; i++){
+        arr[i] = rand()%20;
+    }
+    Vertex* root = create_vertex(0);
+    for(int i = 0; i < 6; i++){
+        Vertex* el = create_vertex(arr[i]);
+        insert_into_vertex(root, el);
+    }
+    cout << "My vertex: " << endl;
+    print_vertex(root);
+    return 0;
+}
